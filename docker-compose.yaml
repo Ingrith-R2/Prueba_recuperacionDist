@@ -1,0 +1,81 @@
+# Indique el proceso, incluyendo scripts y capturas de pantalla, 
+# para realizar la replicación de base de datos (maestro – maestro) MySQL con Docker,
+# que almacene la información de un formulario de WordPress. Incluir un video que demuestre el funcionamiento.
+
+version: '3.7' #El versionado está obsoleto, no es nececesario colocarlo
+
+# En este apartado se colocan los servicios, imagenes y nodos que se usarán en
+# el sistema distirbuido. 
+# Lo que se necesita para que proyecto es:
+# - 1 Base SQL Maestra A
+# - 1 Base SQL Maestra B
+# - 1 Servicio de PHP MyAdmin pare gestionar las DB
+# - 1 nodo de Wordpress con un formulario
+
+# Para las bases de datos, se utilizarán archivos de configuración personalizados
+# lo cual faciltiará la configuración de las bases en el sistema. 
+# Estos archivos son de tipo .cnf 
+
+services: 
+
+  # Servicio 1 - SQL Maestro A 
+  sql_master_A: 
+    image: mysql:5.7 
+    container_name: master_A 
+    environment: 
+        MYSQL_ROOT_PASSWORD: root 
+        MYSQL_DATABASE: wordpress
+    ports: 
+        - "3314:3306" 
+    command: 
+        --server-id=1 --log-bin=mysql --binlog-do-db=wordpress --auto-increment-increment=2 --auto-increment-offset=1
+    networks:
+      - test
+          
+  # Servicio 2 - SQL Maestro B 
+  sql_master_B: 
+    image: mysql:5.7 
+    container_name: master_B 
+    environment: 
+        MYSQL_ROOT_PASSWORD: root 
+        MYSQL_DATABASE: wordpress
+    ports: 
+        - "3315:3306" 
+    command: 
+        --server-id=2 --log-bin=mysql --binlog-do-db=wordpress --auto-increment-increment=2 --auto-increment-offset=2
+    networks:
+      - test
+            
+  # Servicio Gestor - PHP MyAdmin 
+  php_admin: 
+    image: phpmyadmin/phpmyadmin 
+    container_name: admin_UI 
+    ports: 
+        - "8083:80" 
+    environment: 
+        # Definimos los host de los servicios creados para las bases maestro y esclavo 
+        PMA_HOSTS: "sql_master_A, sql_master_B" 
+        PMA_ARBITRARY: 1 
+    networks:
+      - test
+
+  # Servicio de WordPress
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_service
+    ports:
+        - "8086:80"
+    environment:
+        WORDPRESS_DB_HOST: sql_master_A:3306
+        WORDPRESS_DB_NAME: wordpress
+        WORDPRESS_DB_USER: root
+        WORDPRESS_DB_PASSWORD: root
+    depends_on:
+        - sql_master_A
+        - sql_master_B
+    restart: always
+    networks:
+      - test
+
+networks:
+  test:
