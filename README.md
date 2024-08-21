@@ -5,7 +5,8 @@ Para comprender el proceso de replicación de una base de datos, es necesario re
 ### Servicio de Wordpress
 1. Inicialización de Docker Compose <code>dockes-compose up -d</code>
 
-    ![image_a](./resources/image_A.png)
+    ![image](https://github.com/user-attachments/assets/4be3fc73-0077-48ee-93e1-345b99d7564a)
+
     La inicialización del Docker Compose permite crear una composición de contenedores con un fin específico, centrado en generar una conjunto de herramientas destinadas a una tarea en concreta y, enlazando estos elementos entre sí.
 
     ![](/resources/image_B.png)
