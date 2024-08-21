@@ -1,6 +1,11 @@
 # Proceso de replicación de base de datos SQL (Master - Master)
 Para comprender el proceso de replicación de una base de datos, es necesario recalcar que, la base A se replicará en B y visceversa, ya que, son procesos bidireccionales. El proceso de replicación se realiza con una lista de comandos específica.
 
+Enlace del video:
+
+https://www.youtube.com/watch?v=-cu245hlSto
+
+
 ## Lista de comandos
 ### Servicio de Wordpress
 1. Inicialización de Docker Compose <code>dockes-compose up -d</code>
