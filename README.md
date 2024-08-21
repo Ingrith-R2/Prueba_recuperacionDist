@@ -16,7 +16,8 @@ Para comprender el proceso de replicación de una base de datos, es necesario re
 
 2. Abrimos el contenedor de Wordpress y procedemos a instalar el servicio. Se agrega un correo, usuario y contraseña, los cuales son:
 
-     ![](/resources/image_C.png)
+     ![image](https://github.com/user-attachments/assets/6d2f9a7a-ae0f-4ece-9346-ddada463d999)
+
 
     - usuario: ingrithrevelo
     - correo: prueba@recuperacion.com
