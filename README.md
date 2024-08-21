@@ -86,7 +86,7 @@ Los navegadores a emplear son:
 
     > [!IMPORTANT]
     > La base de datos *_"wordpress"_* en el servicio SQL Maestro B debe estar vacía. Si la sincronización ha sido exitosa, todos los datos de la misma base en Maestro A serán replicados y almacenados en B.
-    >
+    
     > ![alt text](./resources/image_R.png)
 
 7. El proceso de replicación de la base de datos se realizará tratando ambas bases como maestras y esclavas a la vez, es decir, empleando los comandos de "Slave Replication" y los "logs" de A en B y visceversa. 
@@ -105,9 +105,11 @@ Los navegadores a emplear son:
     ```
 
     - Master A
+      
         ![alt text](./resources/image_S.png)
 
     - Master B
+      
         ![alt text](./resources/image_T.png)
 
     **a.1. Sincornización inicial:** Es importante que la base wordpress en Master A y B tengan los mismos datos. Como la base en B está vacía, se debe importar la base de datos de A como una copia de seguridad.
@@ -120,6 +122,7 @@ Los navegadores a emplear son:
     Para esto, es necesario ejecutar el comando <code>SHOW MASTER STATUS</code> en cada una de las bases y obtener el bianrio de MySQL y la posición. 
 
     - Comando ejecutado en ambas bases
+      
         ![alt text](./resources/image_U.png)
 
     Al habver sido iniciados por un mismo servicio de PHPMyAdmin, los archivos de binlog y posición son los mismos en ambas bases. Si ambos maestros tienen datos iguales, los archivos de binlog y las posiciones pueden coincidir temporalmente. La replicación debería comenzar a diferenciarse después de que se realicen transacciones adicionales.
@@ -138,17 +141,21 @@ Los navegadores a emplear son:
     Este cambio se debe realizar en ambos servicios, y, al poseer datos iguales, se presenta una captura general de estos. El único cambio a realizar consiste en usar el nombre del **host de A en B** y visceversa. 
 
     - Master A
+  
     ![](./resources/image_V.png)
 
     - Master B
+      
     ![](./resources/image_W.png)
 
     **d. Muestra de estados de bases esclavas:** Como para este proceso ambas bases de datos fueron tratadas como esclavas, se proceder a mostrar el estado de la comunicación con el comando <code>SHOW SLAVE STATUS</code>.
 
     - Master A
+      
     ![alt text](./resources/image_X.png)
 
     - Master B
+      
     ![alt text](./resources/image_Y.png)
 
         i. _Si **"SLAVE_IO_RUNNING"** es igual a _**"NO"**_: En caso de que exista este error, es necesario revisar si en el Docker compose, la sección de **command** tenga escrito correctamente los siguientes parámetros:
